@@ -1,7 +1,9 @@
 #pragma once
 
-#include "entity.h"
-#include "system.h"
+#include "entity_manager.h"
+#include "system_manager.h"
+
+namespace EntitySystem {
 
 // Control the entity and system managers
 class GameMaster {
@@ -23,3 +25,5 @@ private:
   EntityManager entity_manager_;
   SystemManager system_manager_;
 };
+
+}

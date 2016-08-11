@@ -1,21 +1,22 @@
 #include <iostream>
 #include "game_master.h"
-#include "component.h"
-#include "entity.h"
+#include <ctime>
 
-struct Position: public Component {
+namespace ES = EntitySystem;
+
+struct Position: public ES::Component {
   float x, y;
 };
-struct Velocity: public Component {
+struct Velocity: public ES::Component {
   float x, y;
 };
-struct Acceleration: public Component {
+struct Acceleration: public ES::Component {
   float x, y;
 };
 
-class MovementSystem: public System {
+class MovementSystem: public ES::System {
 
-  void update(EntityManager& entity_manager, float dt) override {
+  void update(ES::EntityManager& entity_manager, float dt) override {
     entity_manager.for_each<Position, Velocity>([dt] (Position& position, Velocity& velocity) {
       position.x += velocity.x*dt;
       position.y += velocity.y*dt;
@@ -25,42 +26,34 @@ class MovementSystem: public System {
 };
 
 int main(int argc, char** argv) {
-  GameMaster game;
+  ES::GameMaster game;
 
-  Entity& player = game.add_entity();
-  player.add<Position>();
-  player.add<Velocity>();
-  player.add<Acceleration>();
+  const int player_count = 10000;
 
-  Entity& player2 = game.add_entity();
-  player2.add<Position>();
-  player2.add<Acceleration>();
+  for(int i=0; i<player_count; i++) {
+    ES::Entity& ent = game.add_entity();
+    ent.add<Position>();
+    ent.add<Velocity>();
+    ent.add<Acceleration>();
 
-  player.component<Position>().x = 0.0;
-  player.component<Position>().y = 0.0;
-  player.component<Acceleration>().x = 0.0;
-  player.component<Acceleration>().y = 0.0;
-  player.component<Velocity>().x = 1.0;
-  player.component<Velocity>().y = 1.0;
-
-  std::cout<<player.component<Position>().x << std::endl;
-  std::cout<<player.component<Position>().y << std::endl;
-  std::cout<<player.component<Velocity>().x << std::endl;
-  std::cout<<player.component<Velocity>().y << std::endl;
-  std::cout<<player.component<Acceleration>().x << std::endl;
-  std::cout<<player.component<Acceleration>().y << std::endl;
+    ent.component<Position>().x = 0.0;
+    ent.component<Position>().y = 0.0;
+    ent.component<Acceleration>().x = 0.0;
+    ent.component<Acceleration>().y = 0.0;
+    ent.component<Velocity>().x = 1.0;
+    ent.component<Velocity>().y = 1.0;
+  }
 
   game.enable_system<MovementSystem>();
 
-  for(int i=0; i<10; i++) {
+  std::clock_t start;
+  double duration;
+  start = std::clock();
+
+  for(int i=0; i<60; i++) {
     game.update_systems(1.0);
   }
 
-  std::cout<<player.component<Position>().x << std::endl;
-  std::cout<<player.component<Position>().y << std::endl;
-  std::cout<<player.component<Velocity>().x << std::endl;
-  std::cout<<player.component<Velocity>().y << std::endl;
-  std::cout<<player.component<Acceleration>().x << std::endl;
-  std::cout<<player.component<Acceleration>().y << std::endl;
-
+  duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+  std::cout<<"loop time: "<< duration <<'\n';
 }
