@@ -32,6 +32,10 @@ int main(int argc, char** argv) {
   player.add<Velocity>();
   player.add<Acceleration>();
 
+  Entity& player2 = game.add_entity();
+  player2.add<Position>();
+  player2.add<Acceleration>();
+
   player.component<Position>().x = 0.0;
   player.component<Position>().y = 0.0;
   player.component<Acceleration>().x = 0.0;
