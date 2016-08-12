@@ -14,7 +14,7 @@ using EntityID = uint64_t;
 
 // Components are mapped with their type as the key
 template<typename T>
-constexpr std::type_index component_key() {
+std::type_index component_key() {
   return std::type_index(typeid(T));
 }
 
