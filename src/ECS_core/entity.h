@@ -8,7 +8,7 @@
 #include <experimental/tuple> // Required for std::apply
 #include "component.h"
 
-namespace EntitySystem {
+namespace ecs {
 
 using EntityID = uint64_t;
 

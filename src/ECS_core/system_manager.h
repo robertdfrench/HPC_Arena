@@ -3,7 +3,7 @@
 #include "entity_manager.h"
 #include "system.h"
 
-namespace EntitySystem {
+namespace ecs {
 
 
 // Hold all game systems

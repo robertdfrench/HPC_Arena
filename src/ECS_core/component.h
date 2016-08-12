@@ -1,6 +1,6 @@
 #pragma once
 
-namespace EntitySystem {
+namespace ecs {
 
 class Component {
 public:

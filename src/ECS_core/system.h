@@ -3,11 +3,10 @@
 #include <vector>
 #include "entity_manager.h"
 
-namespace EntitySystem {
+namespace ecs {
 
 class System {
-  public:
+public:
   virtual void update(EntityManager& entity_manager, float dt) = 0;
 };
-
 }

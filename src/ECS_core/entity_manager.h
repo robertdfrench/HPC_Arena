@@ -3,21 +3,24 @@
 #include <unordered_map>
 #include <experimental/tuple> // Required for std::apply
 #include "entity.h"
+#include "Entities/player.h"
 
-namespace EntitySystem {
+namespace ecs {
 
 // Entities should only be created through the manager
 class EntityManager {
 public:
   EntityManager(): entity_count_{0} {};
 
-  // Create and add entity to manager
+  // Create entity from builder and add to manager
+  template<typename Builder>
   Entity& create() {
-    // todo: improve this so it's dynamic and entities removed
     const uint64_t entity_id = entity_count_;
     entities_map_.emplace(entity_id, entity_id);
+    Entity& new_entity = entities_map_.at(entity_id);
+    Builder::build(new_entity);
     entity_count_++;
-    return entities_map_.at(entity_id);
+    return new_entity;
   }
 
   // Iterate through entities and apply body lambda to those maching Component types
