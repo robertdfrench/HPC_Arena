@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ECS_core/ecs_manager.h"
+#include "ECS_core/entity.h"
 #include "Entities/player.h"
 #include "Systems/movement.h"
 

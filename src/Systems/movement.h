@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ECS_core/system_manager.h"
+#include "ECS_core/system.h"
 #include "ECS_core/entity_manager.h"
 
 class Movement: public ecs::System {

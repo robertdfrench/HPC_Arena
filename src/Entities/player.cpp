@@ -1,7 +1,9 @@
-#include "player_builder.h"
+#include "player.h"
 #include "ECS_core/entity.h"
+#include "Components/position.h"
+#include "Components/velocity.h"
 
-static ecs::Entity& Player::build(ecs::Entity& player) {
+ecs::Entity& Player::build(ecs::Entity& player) {
   player.add<Position>();
   player.add<Velocity>();
 
