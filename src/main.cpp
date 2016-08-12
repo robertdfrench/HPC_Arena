@@ -1,11 +1,11 @@
 #include <iostream>
-#include "ECS_core/ecs_manager.h"
+#include "game_manager.h"
 #include "ECS_core/entity.h"
 #include "Entities/player.h"
 #include "Systems/movement.h"
 
 int main(int argc, char** argv) {
-  ecs::EcsManager game;
+  GameManager game;
 
   const int player_count = 10000;
 
@@ -18,5 +18,4 @@ int main(int argc, char** argv) {
   for(int i=0; i<60; i++) {
     game.update_systems(1.0);
   }
-
 }
