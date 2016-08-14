@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include "ECS_core/entity_manager.h"
 #include "ECS_core/system_manager.h"
 
@@ -15,16 +15,18 @@ private:
     return entity_manager_.create<EntityType>();
   }
 
-  template<typename SystemType>
-  void enable_system() {
-    system_manager_.enable<SystemType>();
+  template<typename SystemType, typename... Args>
+  void enable_system(Args&&... args) {
+    system_manager_.enable<SystemType>(args...);
   }
 
   void update_systems(float dt) {
     system_manager_.update(entity_manager_, dt);
   }
 
+  void process_sf_events();
+
   ecs::EntityManager entity_manager_;
   ecs::SystemManager system_manager_;
-  sf::Window window_;
+  sf::RenderWindow window_;
 };
