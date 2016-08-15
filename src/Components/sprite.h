@@ -6,4 +6,6 @@
 
 struct Sprite: public ecs::Component {
   std::string filename;
+  sf::Vector2u size;
+  int depth_layer = 0;
 };

@@ -5,6 +5,7 @@
 #include "Entities/player.h"
 #include "Systems/movement.h"
 #include "Systems/renderer.h"
+#include "Systems/boundary.h"
 
 GameManager::GameManager(): window_{sf::VideoMode::getDesktopMode(), "Arena", sf::Style::Fullscreen} {
 
@@ -16,6 +17,7 @@ GameManager::GameManager(): window_{sf::VideoMode::getDesktopMode(), "Arena", sf
   }
 
   enable_system<Movement>();
+  enable_system<Boundary>(window_.getSize());
   enable_system<Renderer>(window_);
 }
 

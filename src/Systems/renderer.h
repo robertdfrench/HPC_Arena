@@ -4,7 +4,9 @@
 #include <string>
 #include "ECS_core/system.h"
 #include "ECS_core/entity_manager.h"
-#include "texture_cache.h"
+#include "Rendering/texture_cache.h"
+#include "Components/position.h"
+#include "Components/sprite.h"
 
 class Renderer: public ecs::System {
 public:
