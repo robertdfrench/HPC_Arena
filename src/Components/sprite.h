@@ -4,7 +4,7 @@
 #include "SFML/System/Vector2.hpp"
 #include <string>
 
-struct Sprite: public ecs::Component {
+struct Sprite: public ecs::Component<Sprite> {
   std::string filename;
   sf::Vector2u size;
   int depth_layer = 0;
