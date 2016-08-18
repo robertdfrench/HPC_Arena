@@ -5,10 +5,10 @@
 #include "Components/velocity.h"
 #include "Components/sprite.h"
 
-ecs::Entity& Player::build(ecs::Entity& player) {
-  player.add<Position>();
-  player.add<Velocity>();
-  player.add<Sprite>();
+void Player::build(ecs::Entity& player) {
+  player.add_component<Position>();
+  player.add_component<Velocity>();
+  player.add_component<Sprite>();
 
   player.component<Sprite>().filename = "../resources/tank.jpg";
   player.component<Sprite>().size = sf::Vector2u{100, 60};
@@ -18,6 +18,4 @@ ecs::Entity& Player::build(ecs::Entity& player) {
 
   player.component<Velocity>().x = 10.0;
   player.component<Velocity>().y = 10.0;
-
-  return player;
 }

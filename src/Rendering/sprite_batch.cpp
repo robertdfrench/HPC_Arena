@@ -11,6 +11,7 @@ SpriteBatch::SpriteBatch(const std::vector<SpriteRenderable>& sprite_renderables
 {
 
   std::cout<<"sf::Quads deprecated!\n";
+  std::cout<<"sprite count: "<<sprite_renderables.size()<<std::endl;
 
   vertices_.setPrimitiveType(sf::Quads);
   vertices_.resize(sprite_renderables.size() * 4);

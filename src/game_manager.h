@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "ECS_core/entity_manager.h"
+#include "ECS_core/entity.h"
 #include "ECS_core/system_manager.h"
 
 class GameManager {
@@ -10,9 +11,12 @@ public:
   void play();
 
 private:
-  template<typename EntityType>
-  ecs::Entity& add_entity() {
-    return entity_manager_.create<EntityType>();
+  template<typename BuilderType>
+  int new_entity() {
+    int id = entity_manager_.new_entity();
+    ecs::Entity ent{entity_manager_, id};
+    BuilderType::build(ent);
+    return id;
   }
 
   template<typename SystemType, typename... Args>
@@ -23,8 +27,6 @@ private:
   void update_systems(float dt) {
     system_manager_.update(entity_manager_, dt);
   }
-
-  void process_sf_events();
 
   ecs::EntityManager entity_manager_;
   ecs::SystemManager system_manager_;

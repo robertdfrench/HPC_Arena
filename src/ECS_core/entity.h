@@ -1,81 +1,48 @@
 #pragma once
 
-#include <iostream>
-#include <memory>
-#include <unordered_map>
-#include <typeinfo>
-#include <typeindex>
-#include <experimental/tuple> // Required for std::apply
-#include "component.h"
+#include "entity_manager.h"
+
+// Wrapper class to act create entity handles
+// Allows us to treat entities as regular objects
 
 namespace ecs {
 
-using EntityID = uint64_t;
-
-// Components are mapped with their type as the key
-template<typename T>
-std::type_index component_key() {
-  return std::type_index(typeid(T));
-}
-
-// Entities may only have a single component of a given type
 class Entity {
 private:
-  const EntityID id_;
-  std::unordered_map <std::type_index,
-                      std::unique_ptr<Component> > components_;
-
+  int id_;
+  EntityManager& manager_;
 public:
-  Entity(EntityID id): id_{id} {};
+  Entity(EntityManager& manager, int id): manager_{manager}, id_{id} {}
 
-  // Create component of type T and add to entity
-  // ent.add<Position>();
+  // Add component T to entity
   template<typename T>
-  void add() {
-    components_[component_key<T>()] = std::make_unique<T>();
+  void add_component() {
+    return manager_.add_component<T>(id_);
   }
 
-  // Remove component of type T from entity and delete it
-  // ent.remove<Position>();
+  // Remove component T from entity
   template<typename T>
-  void remove() {
-    components_.erase(component_key<T>());
+  void remove_component() {
+    return manager_.remove_component<T>(id_);
   }
 
-  // Return a reference to the component of the specified template type
-  // ent.component<Position>()
+  // fetch reference to component T
   template<typename T>
   T& component() {
-    // Could use static_cast as well
-    return *(static_cast<T*>(
-                             (components_[component_key<T>()]).get()
-                           ));
+    return manager_.fetch_component<T>(id_);
   }
 
-  // Return references to the components of the specified template types
-  // ent.components<Position, Velocity>()
+  // fetch tuple of reference to components Components...
   template<typename... Components>
   auto components() {
-    return std::forward_as_tuple(this->component<Components>()...);
+    return manager_.fetch_components<Components...>(id_);
   }
 
-  // Determine if entity has all of the specified components
-
-  // Pop off key and test if entity includes it, recurse
-  // Note Current and Next are needed so there is no ambiguity when Rest is 0 length
-  template<typename Current, typename Next, typename... Rest>
-  bool has() {
-    bool has_current = components_.count(component_key<Current>());
-    return has_current ? has<Next, Rest...>() : false;
-  }
-  // Handle last test and end of recursion
-  template<typename Last>
-  bool has() {
-    const auto key = std::type_index(component_key<Last>());
-    bool has_last = components_.count(key);
-    return has_last;
+  // Test if entity has specified components
+  template<typename... Components>
+  bool has_components() {
+    return manager_.has_components<Components...>(id_);
   }
 
 };
-
 }

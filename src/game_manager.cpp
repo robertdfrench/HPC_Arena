@@ -1,5 +1,6 @@
 #include "game_manager.h"
 #include <SFML/Window.hpp>
+#include <iostream>
 
 #include "ECS_core/entity.h"
 #include "Entities/player.h"
@@ -11,9 +12,9 @@ GameManager::GameManager(): window_{sf::VideoMode::getDesktopMode(), "Arena", sf
 
   window_.setVerticalSyncEnabled(true);
 
-  const int player_count = 1;
+  const int player_count = 100000;
   for(int i=0; i<player_count; i++) {
-    ecs::Entity& player = add_entity<Player>();
+    int player = new_entity<Player>();
   }
 
   enable_system<Movement>();
@@ -23,6 +24,8 @@ GameManager::GameManager(): window_{sf::VideoMode::getDesktopMode(), "Arena", sf
 
 void GameManager::play() {
   // run the program as long as the window is open
+
+  int count = 0;
   while (window_.isOpen()) {
     // check all the window's events that were triggered since the last iteration of the loop
     sf::Event event;
@@ -31,10 +34,11 @@ void GameManager::play() {
         window_.close();
     }
 
+    sf::Clock clock; // starts the clock
     update_systems(1.0);
+    sf::Time elapsed1 = clock.getElapsedTime();
+    std::cout << elapsed1.asSeconds() << std::endl;
+
+    count++;
   }
-}
-
-void process_sf_events() {
-
 }

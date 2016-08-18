@@ -4,5 +4,5 @@
 
 class Player {
 public:
-  static ecs::Entity& build(ecs::Entity& entity);
+  static void build(ecs::Entity& entity);
 };
