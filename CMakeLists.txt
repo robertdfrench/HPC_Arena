@@ -6,8 +6,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/CMake/)
 set(CMAKE_CXX_STANDARD 14)
 set(CXX_STANDARD_REQUIRED TRUE)
 
-file(GLOB SRC_FILES src/*.cpp src/*/*.cpp)
-add_executable(arena ${SRC_FILES})
+file(GLOB SRC_FILES src/*.cpp src/*.h src/*/*.cpp src/*/*.h)
+add_executable(arena ${SRC_FILES} src/Components/collision_bounds.h)
 
 find_package(SFML COMPONENTS graphics window system)
 

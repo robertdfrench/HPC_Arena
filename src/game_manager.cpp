@@ -7,18 +7,20 @@
 #include "Systems/movement.h"
 #include "Systems/renderer.h"
 #include "Systems/boundary.h"
+#include "Systems/collision.h"
 
-GameManager::GameManager(): window_{sf::VideoMode::getDesktopMode(), "Arena", sf::Style::Fullscreen} {
+GameManager::GameManager(): window_{sf::VideoMode(600,800), "DebugWindow"} {//window_{sf::VideoMode::getDesktopMode(), "Arena", sf::Style::Fullscreen} {
 
   window_.setVerticalSyncEnabled(true);
 
-  const int player_count = 100000;
+  const int player_count = 1000;
   for(int i=0; i<player_count; i++) {
     int player = new_entity<Player>();
   }
 
   enable_system<Movement>();
   enable_system<Boundary>(window_.getSize());
+  enable_system<Collision>(window_.getSize(), 64);
   enable_system<Renderer>(window_);
 }
 

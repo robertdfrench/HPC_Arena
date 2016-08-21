@@ -12,7 +12,13 @@ private:
   int id_;
   EntityManager& manager_;
 public:
+  // Entities should only be created through the entity_manager
   Entity(EntityManager& manager, int id): manager_{manager}, id_{id} {}
+
+  // destroy entity
+  void destroy() {
+    manager_.invalidate_entity(id_);
+  }
 
   // Add component T to entity
   template<typename T>
